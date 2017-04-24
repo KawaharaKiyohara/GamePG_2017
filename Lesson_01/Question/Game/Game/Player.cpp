@@ -60,7 +60,6 @@ void Player::Update()
 void Player::Move()
 {
 	//Question 1 キャラを左右に動かしてみよう。
- 	moveSpeed.x = 0.1f;
 	//Question 2 キャラを上下に動かしてみよう。
 	//Question 3 キャラをジャンプさせてみよう。
 	//Question 4 重力を加えてみよう。
