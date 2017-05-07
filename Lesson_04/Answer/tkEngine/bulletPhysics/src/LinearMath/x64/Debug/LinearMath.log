@@ -1,0 +1,17 @@
+﻿cl : Command line warning D9002: ignoring unknown option '/arch:SSE'
+  btAlignedAllocator.cpp
+  btConvexHull.cpp
+  btConvexHullComputer.cpp
+  btGeometryUtil.cpp
+  btPolarDecomposition.cpp
+  btQuickprof.cpp
+  btSerializer.cpp
+  btVector3.cpp
+btVector3.cpp(179): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+btVector3.cpp(184): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
+btVector3.cpp(427): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+btVector3.cpp(564): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+btVector3.cpp(569): warning C4267: '-=': conversion from 'size_t' to 'unsigned long', possible loss of data
+btVector3.cpp(815): warning C4267: '=': conversion from 'size_t' to 'long', possible loss of data
+  Generating Code...
+  LinearMath.vcxproj -> C:\GitHub\GamePG_2017\Lesson_04\Question\Game\x64\Debug\LinearMath_Debug.lib

@@ -1,0 +1,86 @@
+﻿  tkEnginePreCompile.cpp
+  tkEngine.cpp
+c:\github\gamepg_2017\lesson_04\question\tkengine\tkengine.cpp(289): warning C4244: 'initializing': conversion from 'double' to 'DWORD', possible loss of data
+  tkWaveFileBank.cpp
+  tkWaveFile.cpp
+  tkSoundSource.cpp
+  tkSoundEngine.cpp
+  tkSphereShape.cpp
+c:\github\gamepg_2017\lesson_04\question\tkengine\shape\tksphereshape.cpp(41): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_2017\lesson_04\question\tkengine\shape\tksphereshape.cpp(61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  tkShapeBase.cpp
+  tkBoxShape.cpp
+  tkTextureResources.cpp
+  tkSkinModelDataResources.cpp
+  tkSkinModelDataHandle.cpp
+  tkRandom.cpp
+  tkSphereCollider.cpp
+  tkRigidBody.cpp
+  tkPhysics.cpp
+  tkMeshCollider.cpp
+  tkCapsuleCollider.cpp
+  tkBoxCollider.cpp
+  tkParticleResources.cpp
+  tkParticleEmitter.cpp
+  tkParticle.cpp
+  Generating Code...
+  Compiling...
+  tkTerrain.cpp
+  tkSky.cpp
+  tkVector.cpp
+  tkMatrix.cpp
+  tkMath.cpp
+  tkAabb.cpp
+  tkPad.cpp
+  tkKeyInput.cpp
+  tkVertexBuffer.cpp
+  tkTexture.cpp
+  tkSkinModelData.cpp
+  tkSkinModel.cpp
+  tkRenderTarget.cpp
+  tkRenderContext.cpp
+  tkRenderCommandBuffer.cpp
+  tkPrimitive.cpp
+  tkIndexBuffer.cpp
+  tkGaussianBlur.cpp
+  tkFont.cpp
+  tkEffectManager.cpp
+  Generating Code...
+  Compiling...
+  tkEffect.cpp
+  tkCamera.cpp
+  tkBlur.cpp
+  tkAnimation.cpp
+  tkSprite.cpp
+  tkShadowMap.cpp
+  tkShadowCaster.cpp
+  tkReflectionMap.cpp
+  tkPreRender.cpp
+  tkIDMap.cpp
+  tkTonemap.cpp
+  tkSepiaFilter.cpp
+  tkPostEffect.cpp
+  tkMotionBlur.cpp
+  tkMonochromeFilter.cpp
+  tkIPostEffectFilter.cpp
+  tkFxaa.cpp
+  tkEdgeRender.cpp
+  tkDOF.cpp
+  tkBloomRender.cpp
+  Generating Code...
+  Compiling...
+  tkSkinModelMaterial.cpp
+  tkgameobjectmanager.cpp
+  tkGameObject.cpp
+  tkObjectFrustumCulling.cpp
+  tkCharacterController.cpp
+  tkSpringCamera.cpp
+  tkCameraCollisionSolver.cpp
+  tkPathFinding.cpp
+  Generating Code...
+d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
+d3d9.lib(d3d9.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+XInput.lib(XINPUT1_3.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
+XInput.lib(XINPUT1_3.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+tkGameObject.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  tkEngine.vcxproj -> C:\GitHub\GamePG_2017\Lesson_04\Question\Game\x64\Debug\tkEngine.lib
