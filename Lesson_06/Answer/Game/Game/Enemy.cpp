@@ -38,6 +38,7 @@ void Enemy::Update()
 void Enemy::AnimationControl()
 {
 	if (isAttackFlag == false) {	//攻撃中ではなければ
+		//Question 1 プレイヤーとの距離が2m以下になったら攻撃アニメーションを再生する。
 		CVector3 playerPos = player->GetPosition();
 		//プレイヤーとの距離が一定値以下になったら攻撃する。
 		CVector3 diff = player->GetPosition();
@@ -49,6 +50,7 @@ void Enemy::AnimationControl()
 		}
 	}
 	if(isAttackFlag == true){
+		//Question 2 攻撃アニメーションの再生が終わったら待機アニメーションを再生する。
 		//攻撃中
 		if (animation.IsPlay() == false) {
 			//攻撃アニメーションが終わったので待機アニメーションを再生する。
