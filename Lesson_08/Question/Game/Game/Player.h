@@ -26,23 +26,30 @@ class Player : public Object3D{
 		AnimationDeath,		//死亡。
 		NumAnimation,		//アニメーションの数。
 	};
-	
+	enum State {
+		State_Idle,
+		State_Run,
+		State_Jump,
+		State_Attack,
+		State_Damage,
+	};
 public:
 	Player();
 	~Player();
 	bool Start() override;
 	void Update() override;
-private:
 	void Move();
 	void Rotation();
-	void AnimationControl();
-	void AttackAnimationControl();
+	void AnimationControl();	
 	void PlayAnimation(AnimationNo animNo);
-private:
+	void EmitAttackCollision(CVector3 pos, float delayTime);
+	void CheckDamage();
 	CCharacterController	characterController;				//キャラクターコントローラー。
 	CVector3				moveSpeed = CVector3::Zero;			//移動速度。
 	AnimationNo				playAnimNo = AnimationInvalid;		//アニメーション番号。
-	int						attackFlag = 0;						//攻撃中のフラグ。
+	State					state = State_Idle;					//状態。
+	
+	float					timer = 0.0f;						//タイマー。
 };
 
 extern Player* player;

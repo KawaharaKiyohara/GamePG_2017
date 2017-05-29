@@ -12,6 +12,8 @@ public:
 	void Update() override;
 	void UpdateFSM();
 	void Turn();
+	void CheckDamage();
+	void EmitAttackCollision(CVector3 pos, float delayTime);
 	enum AnimationNo {
 		AnimationInvalid = -1,
 		AnimationStand,
@@ -25,6 +27,7 @@ public:
 		State_Idle,		//待機状態
 		State_Chase,	//プレイヤーを追いかける。
 		State_Attack,	//攻撃状態。
+		State_Damage,	//ダメージ状態。
 	};
 	CVector3				direction = CVector3::Zero;		//エネミーの向き。
 	CCharacterController	characterController;

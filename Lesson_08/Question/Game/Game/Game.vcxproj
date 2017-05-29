@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisionWorld.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Ground.cpp" />
@@ -176,6 +177,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionWorld.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Ground.h" />

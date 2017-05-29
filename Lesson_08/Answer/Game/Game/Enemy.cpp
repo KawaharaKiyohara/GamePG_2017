@@ -2,6 +2,29 @@
 #include "Enemy.h"
 #include "GameCamera.h"
 #include "Player.h"
+#include "CollisionWorld.h"
+
+namespace {
+	class EmitterAttackCollision : public IGameObject {
+
+	public:
+		float timer = 0.0f;
+		CVector3 emitPos;
+		Enemy* enemy = nullptr;
+		void Update() override
+		{
+			if (enemy->IsDead() || enemy->state != Enemy::State_Attack) {
+				DeleteGO(this);
+			}
+			timer -= GameTime().GetFrameDeltaTime();
+			if (timer < 0.0f) {
+				//攻撃コリジョンを発生させる。
+				collisionWorld->Add(emitPos, 0.5f, 0.5f, enCollisionAttr_EnemyAttack);
+				DeleteGO(this);
+			}
+		}
+	};
+}
 
 Enemy::Enemy()
 {
@@ -10,6 +33,16 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+}
+//攻撃コリジョンをエミット。
+//pos エミットする位置。
+//delayTime エミットまでにかかる時間。
+void Enemy::EmitAttackCollision(CVector3 pos, float delayTime)
+{
+	EmitterAttackCollision* emitAttackColl = NewGO<EmitterAttackCollision>(0);
+	emitAttackColl->emitPos = pos;
+	emitAttackColl->timer = delayTime;
+	emitAttackColl->enemy = this;
 }
 bool Enemy::Start()
 {
@@ -25,6 +58,7 @@ bool Enemy::Start()
 	skinModel.SetFresnelFlag(true);
 	characterController.Init(0.6f, 0.3f, position);
 	animation.SetAnimationLoopFlag(AnimationAttack, false);
+	animation.SetAnimationLoopFlag(AnimationDamage, false);
 	return true;
 }
 void Enemy::Update()
@@ -36,7 +70,7 @@ void Enemy::Update()
 	moveSpeed.y -= 9.8f * GameTime().GetFrameDeltaTime();
 
 	UpdateFSM();
-
+	CheckDamage();
 	characterController.Execute(moveSpeed, GameTime().GetFrameDeltaTime());
 	position = characterController.GetPosition();
 	//旋回
@@ -50,17 +84,41 @@ void Enemy::Turn()
 	float angle = atan2f(direction.x, direction.z);
 	rotation.SetRotation(CVector3::AxisY, angle);
 }
+//ダメージ判定。
+void Enemy::CheckDamage()
+{
+	if (state == State_Damage) {
+		//ダメージ中ならリターン。
+		return;
+	}
+	//プレイヤーの攻撃コリジョンとのあたり判定を行う。
+	int numCollision = collisionWorld->m_collisionList.size();
+	for (int i = 0; i < numCollision; i++) {
+		if (collisionWorld->m_collisionList[i]->attr == enCollisionAttr_PlayerAttack) {
+			//プレイヤーが発生させた攻撃コリジョンとのあたりを調べる。
+			//コリジョンとの距離を調べる。
+			CVector3 diff = collisionWorld->m_collisionList[i]->pos - position;
+			if (diff.Length() < 3.0f) {
+				//ダメージを受ける。
+				animation.PlayAnimation(AnimationDamage, 0.2f);
+				state = State_Damage;
+			}
+		}
+	}
+}
 void Enemy::UpdateFSM()
 {
 	//プレイヤーとの距離が一定値以下になったら攻撃する。
 	CVector3 diff;
 	diff = player->position - position;
 	
+	
 	if (state == State_Idle) {
 		//待機状態。
 		//距離が2m以下なら攻撃状態に遷移。
 		if (diff.Length() < 2.0f) {
 			animation.PlayAnimation(AnimationAttack, 0.2f);
+			EmitAttackCollision(position, 1.0f);
 			state = State_Attack;	//攻撃状態に遷移。
 		}
 		else if (diff.Length() < 5.0f) {
@@ -86,6 +144,7 @@ void Enemy::UpdateFSM()
 		if (diff.Length() < 2.0f) {
 			//プレイヤーとの距離が2m以下になったので攻撃を行う。
 			animation.PlayAnimation(AnimationAttack, 0.2f);
+			EmitAttackCollision(position, 1.0f);
 			state = State_Attack;	//攻撃状態に遷移。
 		}
 		
@@ -104,7 +163,15 @@ void Enemy::UpdateFSM()
 		direction.Normalize();
 		
 		if (animation.IsPlay() == false) {
-			//攻撃アニメーションが終わったので待機アニメーションを再生する。
+			//ダメージアニメーションが終了したので待機状態に遷移する。
+			animation.PlayAnimation(AnimationStand, 0.2f);
+			state = State_Idle;
+		}
+	}
+	else if (state == State_Damage) {
+		//ダメージを受けている。
+		if (animation.IsPlay() == false) {
+			//ダメージアニメーションが終了したので待機状態に遷移する。
 			animation.PlayAnimation(AnimationStand, 0.2f);
 			state = State_Idle;
 		}

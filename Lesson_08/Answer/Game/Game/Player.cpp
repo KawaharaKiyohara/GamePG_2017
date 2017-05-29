@@ -4,15 +4,41 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "GameCamera.h"
-
+#include "CollisionWorld.h"
 
 Player* player = nullptr;
 
+namespace {
+	class EmitterAttackCollision : public IGameObject {
+
+	public:
+		float timer = 0.0f;
+		CVector3 emitPos;
+		void Update() override
+		{
+			timer -= GameTime().GetFrameDeltaTime();
+			if (timer < 0.0f) {
+				//攻撃コリジョンを発生させる。
+				collisionWorld->Add(emitPos, 0.5f, 0.5f, enCollisionAttr_PlayerAttack);
+				DeleteGO(this);
+			}
+		}
+	};
+}
 Player::Player()
 {
 }
 Player::~Player()
 {
+}
+//攻撃コリジョンをエミット。
+//pos エミットする位置。
+//delayTime エミットまでにかかる時間。
+void Player::EmitAttackCollision(CVector3 pos, float delayTime)
+{
+	EmitterAttackCollision* emitAttackColl = NewGO<EmitterAttackCollision>(0);
+	emitAttackColl->emitPos = pos;
+	emitAttackColl->timer = delayTime;
 }
 bool Player::Start()
 {
@@ -43,6 +69,7 @@ bool Player::Start()
 	animation.SetAnimationLoopFlag(AnimationAttack_00, false);
 	animation.SetAnimationLoopFlag(AnimationAttack_01, false);
 	animation.SetAnimationLoopFlag(AnimationAttack_02, false);
+	animation.SetAnimationLoopFlag(AnimationDamage, false);
 	animation.SetAnimationEndTime(AnimationAttack_00, 0.6f);
 	animation.SetAnimationEndTime(AnimationAttack_01, 0.8f);
 	return true;
@@ -55,6 +82,8 @@ void Player::Update()
 	Move();
 	//プレイヤーを回す。
 	Rotation();
+	//ダメージ判定。
+	CheckDamage();
 	//アニメーション制御。
 	AnimationControl();
 	CVector3 lightPos = position;
@@ -76,7 +105,7 @@ void Player::PlayAnimation(AnimationNo animNo)
 //////////////////////////////////////////////////////////////////////
 void Player::Move()
 {
-	if (attackFlag == 1) {
+	if (state == State_Attack || state == State_Damage) {
 		//攻撃中ならリターン。
 		return;
 	}
@@ -114,7 +143,7 @@ void Player::Move()
 //////////////////////////////////////////////////////////////////////
 void Player::Rotation()
 {
-	if (attackFlag == 1) {
+	if (state == State_Attack || state == State_Damage) {
 		//攻撃中ならリターン。
 		return;
 	}
@@ -140,64 +169,122 @@ void Player::Rotation()
 //////////////////////////////////////////////////////////////////////
 void Player::AnimationControl()
 {
-	if (attackFlag == 0) {	//攻撃中じゃなければ。
-		if (!characterController.IsJump()) {
-			if (Pad(0).IsPress(enButtonUp)) {
-				PlayAnimation(AnimationRun);
-			}
-			else if (Pad(0).IsPress(enButtonDown)) {
-				PlayAnimation(AnimationRun);
-			}
-			else if (Pad(0).IsPress(enButtonRight)) {
-				PlayAnimation(AnimationRun);
-			}
-			else if (Pad(0).IsPress(enButtonLeft)) {
-				PlayAnimation(AnimationRun);
-			}
-			else {
-				PlayAnimation(AnimationStand);
-			}
-		}
+	if (state != State_Jump) {
+		
 		if (Pad(0).IsTrigger(enButtonA)) {
 			PlayAnimation(AnimationJump);
+			state = State_Jump;
 		}
 	}
-	AttackAnimationControl();
-}
-//////////////////////////////////////////////////////////////////////
-// ここからプレイヤーの攻撃アニメーションを制御するプログラムが記述されているよ。
-//////////////////////////////////////////////////////////////////////
-void Player::AttackAnimationControl()
-{
-	if (attackFlag == 1) {
-		//攻撃中！
-		if (!animation.IsPlay()) {
-			//アニメーションの再生が終わったので攻撃フラグを下す。
-			attackFlag = 0;
-		}
-	}
-	else {
-		//攻撃中じゃない！
+	if (state != State_Jump && state != State_Attack) {
+		//攻撃判定。
 		if (Pad(0).IsPress(enButtonX)) {
 			//攻撃中じゃないときにXボタンが押されたら小攻撃・
 			//攻撃アニメーションを再生。
 			PlayAnimation(AnimationAttack_00);
 			//攻撃中のフラグを立てる。
-			attackFlag = 1;
+			state = State_Attack;
+			//攻撃コリジョンを発生させる。
+			EmitAttackCollision(position, 0.2f);
 		}
 		if (Pad(0).IsPress(enButtonY)) {
 			//攻撃中じゃないときにYボタンが押されたら中攻撃。
 			//攻撃アニメーションを再生。
 			PlayAnimation(AnimationAttack_01);
 			//攻撃中のフラグを立てる。
-			attackFlag = 1;
+			state = State_Attack;
+			//Question 1 攻撃コリジョンを発生させる。
+			EmitAttackCollision(position, 0.2f);
 		}
 		if (Pad(0).IsPress(enButtonB)) {
 			//攻撃中じゃないときにYボタンが押されたら大攻撃。
 			//攻撃アニメーションを再生。
 			PlayAnimation(AnimationAttack_02);
 			//攻撃中のフラグを立てる。
-			attackFlag = 1;
+			state = State_Attack;
+			//Question 2 攻撃コリジョンを発生させる。
+			EmitAttackCollision(position, 0.2f);
 		}
 	}
+	if (state == State_Idle) {	//
+		if (Pad(0).IsPress(enButtonUp)) {
+			PlayAnimation(AnimationRun);
+			state = State_Run;
+		}
+		else if (Pad(0).IsPress(enButtonDown)) {
+			PlayAnimation(AnimationRun);
+			state = State_Run;
+		}
+		else if (Pad(0).IsPress(enButtonRight)) {
+			PlayAnimation(AnimationRun);
+			state = State_Run;
+		}
+		else if (Pad(0).IsPress(enButtonLeft)) {
+			PlayAnimation(AnimationRun);
+			state = State_Run;
+		}
+		
+	}
+	else if (state == State_Run) {
+		if (!Pad(0).IsPress(enButtonUp)
+			&& !Pad(0).IsPress(enButtonDown)
+			&& !Pad(0).IsPress(enButtonLeft)
+			&& !Pad(0).IsPress(enButtonRight)
+		) {
+			//待機状態に遷移
+			PlayAnimation(AnimationStand);
+			state = State_Idle;
+		}
+	}
+	else if (state == State_Jump) {
+		if (animation.IsPlay() == false) {
+			//待機状態に遷移
+			PlayAnimation(AnimationStand);
+			state = State_Idle;
+		}
+	}
+	else if (state == State_Attack) {
+		if (!animation.IsPlay()) {
+			PlayAnimation(AnimationStand);
+			state = State_Idle;
+		}
+	}
+	else if (state == State_Damage) {
+		if (!animation.IsPlay()) {
+			PlayAnimation(AnimationStand);
+			state = State_Idle;
+		}
+	}
+	
+	
+}
+
+///////////////////////////////////////////////////////////////
+// プレイヤーのダメージ判定。
+///////////////////////////////////////////////////////////////
+void Player::CheckDamage()
+{
+	//Question 3 プレイヤーのダメージ判定。
+	// ヒント
+	//  Enemy.cppの83行目～103行目までのプログラムがエネミーのダメージ判定の処理。
+	//  それを参考にすれば実装できるかも？
+	if (state == State_Damage) {
+		//ダメージ中ならリターン。
+		return;
+	}
+	//プレイヤーの攻撃コリジョンとのあたり判定を行う。
+	int numCollision = collisionWorld->m_collisionList.size();
+	for (int i = 0; i < numCollision; i++) {
+		if (collisionWorld->m_collisionList[i]->attr == enCollisionAttr_EnemyAttack) {
+			//プレイヤーの攻撃コリジョン
+			//コリジョンとの距離を調べる。
+			CVector3 diff = collisionWorld->m_collisionList[i]->pos - position;
+			if (diff.Length() < 3.0f) {
+				//ダメージを受ける。
+				animation.PlayAnimation(AnimationDamage, 0.2f);
+				state = State_Damage;
+			}
+		}
+	}
+
 }

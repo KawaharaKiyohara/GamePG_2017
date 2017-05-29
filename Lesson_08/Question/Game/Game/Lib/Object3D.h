@@ -15,19 +15,7 @@ public:
 	void Init(const char* filePath, const CCamera& camera);
 	void Update() override;
 	void Render(CRenderContext& renderContext) override;
-	const CVector3& GetPosition() const
-	{
-		return position;
-	}
-	void SetPosition(const CVector3& pos)
-	{
-		position = pos;
-	}
-	void SetRotation(const CQuaternion& rot)
-	{
-		rotation = rot;
-	}
-protected:
+	
 	CSkinModelDataHandle	skinModelData;		//!<スキンモデルデータ。
 	CSkinModel				skinModel;			//!<スキンモデル。
 	CAnimation				animation;			//!<アニメーション。

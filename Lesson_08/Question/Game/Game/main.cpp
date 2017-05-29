@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Ground.h"
 #include "Enemy.h"
+#include "CollisionWorld.h"
 
 /*!
  * @brief	tkEngineの初期化。
@@ -64,14 +65,15 @@ int WINAPI wWinMain(
 	gameCamera = NewGO<GameCamera>(0);
 	player = NewGO<Player>(0);
 	NewGO<Ground>(0);
+	collisionWorld = NewGO<CollisionWorld>(0);
 	CQuaternion rot;
 	rot.SetRotationDeg(CVector3::AxisY, 180.0f);
 	Enemy* enemy = NewGO<Enemy>(0);
-	enemy->SetPosition({2.0f, 0.0f, 5.0f});
-	enemy->SetRotation(rot);
+	enemy->position = {2.0f, 0.0f, 5.0f};
+	enemy->rotation = rot;
 	enemy = NewGO<Enemy>(0);
-	enemy->SetPosition({-3.0f, 0.0f, 9.0f});
-	enemy->SetRotation(rot);
+	enemy->position = {-3.0f, 0.0f, 9.0f};
+	enemy->rotation = rot;
 	ShadowMap().SetCamera(gameCamera->GetCamera());
 	Engine().RunGameLoop();		//ゲームループを実行。
 

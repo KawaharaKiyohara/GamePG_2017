@@ -37,17 +37,16 @@ void GameCamera::Update()
 //////////////////////////////////////////////////////////////////////
 void GameCamera::Move()
 {
-	CVector3 playerPos = player->GetPosition();
-	//Question 1 視点を動かす。
+	//視点を動かす。
 	CVector3 cameraPos;
-	cameraPos.x = playerPos.x;
-	cameraPos.y = playerPos.y + 1.5f;
-	cameraPos.z = playerPos.z - 4.0f;
+	cameraPos.x = player->position.x;
+	cameraPos.y = player->position.y + 1.5f;
+	cameraPos.z = player->position.z - 4.0f;
 	camera.SetPosition(cameraPos);
-	//Question 2 注視点を動かす。
+	//注視点を動かす。
 	CVector3 cameraTarget;
-	cameraTarget.x = playerPos.x;
-	cameraTarget.y = playerPos.y + 1.0f;
-	cameraTarget.z = playerPos.z;
+	cameraTarget.x = player->position.x;
+	cameraTarget.y = player->position.y + 1.0f;
+	cameraTarget.z = player->position.z;
 	camera.SetTarget(cameraTarget);
 }

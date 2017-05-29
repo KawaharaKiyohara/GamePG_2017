@@ -11,7 +11,6 @@ public:
 	Ground();
 	~Ground();
 	bool Start() override;
-private:
 	CMeshCollider			meshCollider;		//メッシュコライダー。
 	CRigidBody				rigidBody;			//剛体。
 };
