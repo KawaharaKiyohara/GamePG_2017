@@ -81,7 +81,36 @@ void Player::Move()
 		return;
 	}
 	//Question 1 パッドの入力でキャラクターを移動させてみよう。
+	if (Pad(0).IsPress(enButtonRight) ){
+		moveSpeed.x = 2.0f;
+	}
+	else if (Pad(0).IsPress(enButtonLeft)) {
+		moveSpeed.x = -2.0f;
+	}
+	else {
+		//キーが何も入力されていなければ
+		moveSpeed.x = 0.0f;
+	}
+	if (Pad(0).IsPress(enButtonUp)) {
+		moveSpeed.z = 2.0f;
+	}
+	else if (Pad(0).IsPress(enButtonDown)) {
+		moveSpeed.z = -2.0f;
+	}
+	else {
+		moveSpeed.z = 0.0f;
+	}
+	if (Pad(0).IsPress(enButtonB)) {
+		moveSpeed.x *= 2.0f;
+		moveSpeed.z *= 2.0f;
+	}
 	//Question 2 パッドのAボタン(キーボードのJ)が押されたらキャラクターをジャンプさせてみよう。
+	if (Pad(0).IsTrigger(enButtonA)) {
+		moveSpeed.y = 3.0f;
+		characterController.Jump();
+	}
+	//重力の影響。
+	moveSpeed.y -= 9.8f * GameTime().GetFrameDeltaTime();
 	//移動。
 	characterController.Execute(moveSpeed, GameTime().GetFrameDeltaTime());
 	position = characterController.GetPosition();
@@ -96,6 +125,16 @@ void Player::Rotation()
 		return;
 	}
 	//Question 3 パッドの入力でキャラクターの方向を変えられるようにしてみよう。
+	if (Pad(0).IsPress(enButtonRight)) {
+		rotation.SetRotationDeg(CVector3::AxisY, 90.0f);
+	}
+	else if (Pad(0).IsPress(enButtonLeft)) {
+		rotation.SetRotationDeg(CVector3::AxisY, -90.0f);
+	}else if (Pad(0).IsPress(enButtonUp)) {  
+		rotation.SetRotationDeg(CVector3::AxisY, 0.0f);
+	}else if (Pad(0).IsPress(enButtonDown)) {
+		rotation.SetRotationDeg(CVector3::AxisY, 180.0f);
+	}
 }
 //////////////////////////////////////////////////////////////////////
 // ここからプレイヤーのアニメーションを制御するプログラムが記述されてるよ。
@@ -104,7 +143,22 @@ void Player::AnimationControl()
 {
 	if (attackFlag == 0) {	//攻撃中じゃなければ。
 		//QUestion 4 パッドの入力で走りアニメーションを再生してみよう。
+		if (!characterController.IsJump()) {
+			if (Pad(0).IsPress(enButtonRight)
+				|| Pad(0).IsPress(enButtonLeft)
+				|| Pad(0).IsPress(enButtonUp)
+				|| Pad(0).IsPress(enButtonDown)) 
+			{
+				PlayAnimation(AnimationRun);
+			}
+			else {
+				PlayAnimation(AnimationStand);
+			}
+		}
 		//Question 5 Aボタン(キーボードのJ)が押されたらジャンプアニメーションを再生してみよう。
+		if (Pad(0).IsTrigger(enButtonA) ){
+			PlayAnimation(AnimationJump);
+		}
 	}
 	AttackAnimationControl();
 }
