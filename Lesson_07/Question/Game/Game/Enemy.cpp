@@ -73,14 +73,22 @@ void Enemy::UpdateFSM()
 		//  プレイヤーの方に進むという処理を行うためには、プレイヤーの方向を向いている、向きベクトルを求める必要がある。
 		//  diffにはエネミーからプレイヤーまでのベクトルが入っている。
 		//  このベクトルの大きさを１にすると(正規化)向きベクトルになる。
-		
+		CVector3 toPlayerDirection = diff;
+		toPlayerDirection.Normalize();
+		moveSpeed = toPlayerDirection * 2.0f;
 		//Question 2 プレイヤーとの距離が2.0m以下になったら攻撃を行う。
-		
+		if (diff.Length() < 2.0f) {
+			animation.PlayAnimation(AnimationAttack, 0.2f);
+			state = State_Attack;	//攻撃状態に遷移。
+		}
 		
 		
 		
 		//Question 3 プレイヤーと敵の距離が10m以上になったら、追跡終了で待機状態に戻す・
-		
+		if (diff.Length() >= 10.0f) {
+			animation.PlayAnimation(AnimationStand, 0.2f);
+			state = State_Idle;
+		}
 		
 		
 		

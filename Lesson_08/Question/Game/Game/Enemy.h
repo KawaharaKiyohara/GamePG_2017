@@ -28,6 +28,7 @@ public:
 		State_Chase,	//プレイヤーを追いかける。
 		State_Attack,	//攻撃状態。
 		State_Damage,	//ダメージ状態。
+		State_Dead,		//死亡状態。
 	};
 	CVector3				direction = CVector3::Zero;		//エネミーの向き。
 	CCharacterController	characterController;

@@ -5,12 +5,12 @@
 #include "Player.h"
 #include "GameCamera.h"
 #include "CollisionWorld.h"
+#include "tkEngine/Sound/tkSoundSource.h"
 
 Player* player = nullptr;
 
 namespace {
 	class EmitterAttackCollision : public IGameObject {
-
 	public:
 		float timer = 0.0f;
 		CVector3 emitPos;
@@ -20,6 +20,9 @@ namespace {
 			if (timer < 0.0f) {
 				//UŒ‚ƒRƒŠƒWƒ‡ƒ“‚ð”­¶‚³‚¹‚éB
 				collisionWorld->Add(emitPos, 0.5f, 0.5f, enCollisionAttr_PlayerAttack);
+				CSoundSource* s = NewGO<CSoundSource>(0);
+				s->Init("Assets/titleBgm.wav");
+				s->Play(false);
 				DeleteGO(this);
 			}
 		}
