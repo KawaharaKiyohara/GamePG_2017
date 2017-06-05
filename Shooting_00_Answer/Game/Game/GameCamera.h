@@ -16,5 +16,4 @@ public:
 	CCamera		m_camera;		//ƒJƒƒ‰B
 };
 
-extern GameCamera* g_gameCamera;
 

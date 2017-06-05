@@ -2,12 +2,9 @@
 #include "Player.h"
 #include "GameCamera.h"
 
-Player* g_player = NULL;
 Player::Player()
 {
 }
-
-
 Player::~Player()
 {
 }
@@ -16,6 +13,7 @@ Player::~Player()
 ///////////////////////////////////////////////
 bool Player::Start()
 {
+	//3Dモデルデータをロードして初期化。
 	m_skinModelData.LoadModelData("Assets/modelData/plane.X", &m_animation);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(g_defaultLight);
@@ -27,6 +25,7 @@ bool Player::Start()
 ///////////////////////////////////////////////
 void Player::Update()
 {
+	//モデルのワールド行列を更新。
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
 }
 ///////////////////////////////////////////////
@@ -35,5 +34,7 @@ void Player::Update()
 ///////////////////////////////////////////////
 void Player::Render(CRenderContext& rc)
 {
-	m_skinModel.Draw(rc, g_gameCamera->m_camera.GetViewMatrix(), g_gameCamera->m_camera.GetProjectionMatrix());
+	//GameCameraを検索。
+	GameCamera* gcam = FindGO<GameCamera>("GameCamera");
+	m_skinModel.Draw(rc, gcam->m_camera.GetViewMatrix(), gcam->m_camera.GetProjectionMatrix());
 }

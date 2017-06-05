@@ -29,5 +29,6 @@ void Sky::Update()
 }
 void Sky::Render(CRenderContext& rc)
 {
-	m_skinModel.Draw(rc, g_gameCamera->m_camera.GetViewMatrix(), g_gameCamera->m_camera.GetProjectionMatrix());
+	GameCamera* gcam = FindGO<GameCamera>("GameCamera");
+	m_skinModel.Draw(rc, gcam->m_camera.GetViewMatrix(), gcam->m_camera.GetProjectionMatrix());
 }

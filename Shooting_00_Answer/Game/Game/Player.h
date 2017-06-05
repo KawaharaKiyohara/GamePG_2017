@@ -21,4 +21,3 @@ public:
 	CQuaternion				m_rotation = CQuaternion::Identity;		//!<‰ñ“]B
 };
 
-extern Player* g_player;

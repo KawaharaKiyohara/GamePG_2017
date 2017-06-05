@@ -2,8 +2,6 @@
 #include "GameCamera.h"
 
 
-GameCamera* g_gameCamera = NULL;
-
 GameCamera::GameCamera()
 {
 }
