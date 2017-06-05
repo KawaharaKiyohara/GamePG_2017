@@ -1,13 +1,7 @@
 ﻿  tkEnginePreCompile.cpp
-  tkEngine.cpp
-c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\tkengine.cpp(289): warning C4244: '初期化中': 'double' から 'DWORD' への変換です。データが失われる可能性があります。
-  tkWaveFileBank.cpp
-  tkWaveFile.cpp
-  tkSoundSource.cpp
-  tkSoundEngine.cpp
   tkSphereShape.cpp
-c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\shape\tksphereshape.cpp(41): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
-c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\shape\tksphereshape.cpp(61): warning C4267: '引数': 'size_t' から 'int' に変換しました。データが失われているかもしれません。
+c:\github\gamepg_2017\shooting_00\tkengine\shape\tksphereshape.cpp(41): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+c:\github\gamepg_2017\shooting_00\tkengine\shape\tksphereshape.cpp(61): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   tkShapeBase.cpp
   tkBoxShape.cpp
   tkTextureResources.cpp
@@ -23,21 +17,19 @@ c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\shape\tkspheres
   tkParticleResources.cpp
   tkParticleEmitter.cpp
   tkParticle.cpp
-  コードを生成中...
-  コンパイル中...
   tkTerrain.cpp
   tkSky.cpp
   tkVector.cpp
   tkMatrix.cpp
+  Generating Code...
+  Compiling...
   tkMath.cpp
   tkAabb.cpp
-  tkPad.cpp
-  tkKeyInput.cpp
   tkVertexBuffer.cpp
   tkTexture.cpp
   tkSkinModelData.cpp
   tkSkinModel.cpp
-c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\graphics\tkskinmodel.cpp(16): warning C4800: 'const tkEngine::CLight *': ブール値を 'true' または 'false' に強制的に設定します (警告の処理)
+c:\github\gamepg_2017\shooting_00\tkengine\graphics\tkskinmodel.cpp(16): warning C4800: 'const tkEngine::CLight *': forcing value to bool 'true' or 'false' (performance warning)
   tkRenderTarget.cpp
   tkRenderContext.cpp
   tkRenderCommandBuffer.cpp
@@ -46,21 +38,21 @@ c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\graphics\tkskin
   tkGaussianBlur.cpp
   tkFont.cpp
   tkEffectManager.cpp
-  コードを生成中...
-  コンパイル中...
   tkEffect.cpp
   tkCamera.cpp
   tkBlur.cpp
   tkAnimation.cpp
   tkSprite.cpp
   tkShadowMap.cpp
+  Generating Code...
+  Compiling...
   tkShadowCaster.cpp
   tkReflectionMap.cpp
   tkPreRender.cpp
   tkIDMap.cpp
   tkTonemap.cpp
-  tkSSAO.cpp
   tkSepiaFilter.cpp
+  tkSSAO.cpp
   tkPostEffect.cpp
   tkMotionBlur.cpp
   tkMonochromeFilter.cpp
@@ -68,21 +60,27 @@ c:\users\takay\documents\github\gamepg_2017\shooting_00\tkengine\graphics\tkskin
   tkFxaa.cpp
   tkEdgeRender.cpp
   tkDOF.cpp
-  コードを生成中...
-  コンパイル中...
   tkBloomRender.cpp
   tkSkinModelMaterial.cpp
   tkgameobjectmanager.cpp
   tkGameObject.cpp
   tkObjectFrustumCulling.cpp
   tkCharacterController.cpp
+  Generating Code...
+  Compiling...
   tkSpringCamera.cpp
   tkCameraCollisionSolver.cpp
+  tkWaveFileBank.cpp
+  tkWaveFile.cpp
+  tkSoundSource.cpp
+  tkSoundEngine.cpp
+  tkPad.cpp
+  tkKeyInput.cpp
   tkPathFinding.cpp
-  コードを生成中...
-d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR は d3dx9.lib(d3dx9_43.dll) で定義されています。2 つ目以降の定義は無視されます。
-d3d9.lib(d3d9.dll) : warning LNK4221: このオブジェクト ファイルは、以前に未定義であったパブリック シンボルを定義していないため、このライブラリを使用するリンク操作では使用されません
-XInput.lib(XINPUT1_3.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR は d3dx9.lib(d3dx9_43.dll) で定義されています。2 つ目以降の定義は無視されます。
-XInput.lib(XINPUT1_3.dll) : warning LNK4221: このオブジェクト ファイルは、以前に未定義であったパブリック シンボルを定義していないため、このライブラリを使用するリンク操作では使用されません
-tkGameObject.obj : warning LNK4221: このオブジェクト ファイルは、以前に未定義であったパブリック シンボルを定義していないため、このライブラリを使用するリンク操作では使用されません
-  tkEngine.vcxproj -> C:\Users\Takay\Documents\GitHub\GamePG_2017\Shooting_00\Game\x64\Debug\tkEngine.lib
+  Generating Code...
+d3d9.lib(d3d9.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
+d3d9.lib(d3d9.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+XInput.lib(XINPUT1_3.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in d3dx9.lib(d3dx9_43.dll); second definition ignored
+XInput.lib(XINPUT1_3.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+tkGameObject.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  tkEngine.vcxproj -> C:\GitHub\GamePG_2017\Shooting_00\Game\x64\Debug\tkEngine.lib

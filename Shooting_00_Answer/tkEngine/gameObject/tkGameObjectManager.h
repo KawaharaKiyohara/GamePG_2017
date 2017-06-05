@@ -81,6 +81,7 @@ namespace tkEngine{
 				go->m_isRegist = true;
 				go->m_priority = prio;
 				go->m_isStart = false;
+				go->m_nameKey = hash;
 				if (go->m_isDead) {
 					//死亡フラグが立っている。
 					//削除リストに入っていたらそこから除去する。
@@ -107,7 +108,29 @@ namespace tkEngine{
 			m_gameObjectListArray.at(prio).push_back(newObject);
 			newObject->m_isRegist = true;
 			newObject->m_priority = prio;
+			newObject->m_nameKey = hash;
 			return newObject;
+		}
+		/*!
+		*@brief	ゲームオブジェクトの検索。
+		*@details
+		* 重いよ！
+		*@param[in]	objectName		オブジェクト名。
+		*/
+		template<class T>
+		T* FindGameObject(const char* objectName)
+		{
+			unsigned int nameKey = CUtil::MakeHash(objectName);
+			for (auto goList : m_gameObjectListArray) {
+				for (auto go : goList) {
+					if (go->m_nameKey == nameKey) {
+						//見つけた。
+						return dynamic_cast<T*>(go);
+					}
+				}
+			}
+			//見つからなかった。
+			return nullptr;
 		}
 		/*!
 		 *@brief	ゲームオブジェクトの削除。
@@ -187,6 +210,15 @@ namespace tkEngine{
 	static inline void AddGO(int priority, IGameObject* go, const char* objectName = nullptr)
 	{
 		GameObjectManager().AddGameObject(priority, go, objectName);
+	}
+	/*!
+	*@brief	ゲームオブジェクトの検索のヘルパー関数。
+	*@param[in]	objectName	ゲームオブジェクトの名前。
+	*/
+	template<class T>
+	static inline T* FindGO(const char* objectName)
+	{
+		return GameObjectManager().FindGameObject<T>(objectName);
 	}
 	/*!
 	*@brief	指定したタグのいずれかがが含まれるゲームオブジェクトを検索して、見つかった場合指定されたコールバック関数を呼び出す。

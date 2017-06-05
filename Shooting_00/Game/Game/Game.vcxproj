@@ -163,10 +163,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameCamera.cpp" />
-    <ClCompile Include="Ground.cpp" />
-    <ClCompile Include="Lib\Object3D.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -177,9 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="Ground.h" />
-    <ClInclude Include="Lib\Object3D.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Sky.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

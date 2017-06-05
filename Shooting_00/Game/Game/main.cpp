@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "GameCamera.h"
-#include "Player.h"
-#include "Ground.h"
 #include "Sky.h"
 
 CLight g_defaultLight;
@@ -50,18 +48,7 @@ void InitTkEngine( HINSTANCE hInst )
 	
 	ShadowMap().SetNear(2.0f);
 	ShadowMap().SetFar(40.0f);
-	
-}
 
-int WINAPI wWinMain(
-	HINSTANCE hInst,
-	HINSTANCE hPrevInstance,
-	LPWSTR lpCmdLine,
-	int nCmdShow
-	)
-{
-	//tkEngineの初期化。
-	InitTkEngine( hInst );
 	g_defaultLight.SetDiffuseLightDirection(0, CVector3(0.707f, 0.0f, -0.707f));
 	g_defaultLight.SetDiffuseLightDirection(1, CVector3(-0.707f, 0.0f, -0.707f));
 	g_defaultLight.SetDiffuseLightDirection(2, CVector3(0.0f, 0.707f, 0.707f));
@@ -76,11 +63,25 @@ int WINAPI wWinMain(
 	g_defaultLight.SetAmbinetLight({ 0.2f, 0.2f, 0.2f });
 	g_defaultLight.SetLimLightColor(CVector4(0.0f, 0.0f, 0.0f, 1.0f));
 	g_defaultLight.SetLimLightDirection(CVector3(0.0f, 0.0f, -1.0f));
-	g_gameCamera = NewGO<GameCamera>(0);
-	ShadowMap().SetCamera(g_gameCamera->m_camera);
-	g_player = NewGO<Player>(0);
-	NewGO<Ground>(0);
-	NewGO<::Sky>(0);
+
+	
+}
+
+int WINAPI wWinMain(
+	HINSTANCE hInst,
+	HINSTANCE hPrevInstance,
+	LPWSTR lpCmdLine,
+	int nCmdShow
+	)
+{
+	//tkEngineの初期化。
+	InitTkEngine( hInst );
+	//空を追加。
+	NewGO<::Sky>(0, "Sky");
+	//ゲームカメラを追加。
+	GameCamera* cam = NewGO<GameCamera>(0, "GameCamera");
+	ShadowMap().SetCamera(cam->m_camera);
+
 	Engine().RunGameLoop();		//ゲームループを実行。
 
 	return 0;
