@@ -20,6 +20,6 @@ public:
 	CVector3				m_position = CVector3::Zero;	//!<座標。
 	CVector3				m_moveSpeed = CVector3::Zero;	//!<移動速度。
 	GameCamera*				m_gameCamera = NULL;			//!<ゲームカメラ。
-	int						m_life = 500;					//!<寿命。
+	int						m_life = 60;					//!<寿命。
 };
 

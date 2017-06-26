@@ -20,5 +20,6 @@ public:
 	CAnimation				m_animation;							//!<アニメーション。 
 	CVector3				m_position = CVector3::Zero;			//!<座標。
 	CQuaternion				m_rotation = CQuaternion::Identity;		//!<回転。
+	int						m_interval = 0;							//!<弾丸を発射した際のインターバル。
 };
 

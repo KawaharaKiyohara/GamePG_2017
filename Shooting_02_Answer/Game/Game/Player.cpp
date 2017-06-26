@@ -31,12 +31,19 @@ void Player::Update()
 	//モデルのワールド行列を更新。
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
 	//弾丸の発射処理を記述。
-	if (Pad(0).IsPress(enButtonA)) {
-		Bullet* bullet = NewGO<Bullet>(0);
-		bullet->m_position = m_position;
-		bullet->m_moveSpeed.x = 0.0f;
-		bullet->m_moveSpeed.y = 0.0f;
-		bullet->m_moveSpeed.z = 10.0f;
+	if (m_interval == 0) {
+		//発射間隔が経過した。
+		if (Pad(0).IsPress(enButtonA)) {
+			Bullet* bullet = NewGO<Bullet>(0);
+			bullet->m_position = m_position;
+			bullet->m_moveSpeed.x = 0.0f;
+			bullet->m_moveSpeed.y = 0.0f;
+			bullet->m_moveSpeed.z = 10.0f;
+			m_interval = 5;		//5フレーム間隔をあける。
+		}
+	}
+	else {
+		m_interval--;
 	}
 }
 ///////////////////////////////////////////////
