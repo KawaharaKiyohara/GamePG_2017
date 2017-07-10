@@ -18,8 +18,8 @@ public:
 	CSkinModelDataHandle	m_skinModelData;		//!<スキンモデルデータ。
 	CSkinModel				m_skinModel;			//!<スキンモデル。
 	CVector3				m_position = CVector3::Zero;	//!<座標。
-	CVector3				m_moveSpeed = CVector3::Zero;	//!<移動速度。
 	GameCamera*				m_gameCamera = NULL;			//!<ゲームカメラ。
+	CVector3				m_moveSpeed = CVector3::Zero;
 	int						m_life = 60;					//!<寿命。
 };
 

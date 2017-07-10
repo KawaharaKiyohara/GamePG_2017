@@ -15,7 +15,7 @@ Player::~Player()
 bool Player::Start()
 {
 	//3Dモデルデータをロードして初期化。
-	m_skinModelData.LoadModelData("Assets/modelData/plane.X", &m_animation);
+	m_skinModelData.LoadModelData("Assets/modelData/enemy.X", &m_animation);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(g_defaultLight);
 	return true;
@@ -31,19 +31,19 @@ void Player::Update()
 	//モデルのワールド行列を更新。
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
 	//弾丸の発射処理を記述。
+	//発射間隔が経過した。
 	if (m_interval == 0) {
-		//発射間隔が経過した。
 		if (Pad(0).IsPress(enButtonA)) {
 			Bullet* bullet = NewGO<Bullet>(0);
 			bullet->m_position = m_position;
 			bullet->m_moveSpeed.x = 0.0f;
 			bullet->m_moveSpeed.y = 0.0f;
 			bullet->m_moveSpeed.z = 10.0f;
-			m_interval = 5;		//5フレーム間隔をあける。
+			m_interval = 5;
 		}
 	}
 	else {
-		m_interval--;
+		m_interval -= 1;
 	}
 }
 ///////////////////////////////////////////////

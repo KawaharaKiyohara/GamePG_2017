@@ -29,7 +29,6 @@ bool Bullet::Start()
 ///////////////////////////////////////////////
 void Bullet::Update()
 {
-	//弾を移動させる。
 	m_position += m_moveSpeed;
 	//弾のモデルが小さすぎるので拡大率に30倍を設定する。
 	CVector3 scale;
@@ -37,13 +36,6 @@ void Bullet::Update()
 	scale.y = 30.0f;
 	scale.z = 30.0f;
 	m_skinModel.Update(m_position, CQuaternion::Identity, scale);
-
-	//寿命を減らす。
-	m_life--;
-	if (m_life == 0) {
-		//死亡。
-		DeleteGO(this);
-	}
 }
 ///////////////////////////////////////////////
 //毎フレーム呼ばれる描画処理。
